@@ -1,0 +1,6 @@
+discord_webhook==1.4.1
+pandas==2.3.3
+postgrest==2.22.2
+Requests==2.32.5
+SQLAlchemy==2.0.44
+supabase==2.22.2
