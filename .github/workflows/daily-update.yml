@@ -27,7 +27,7 @@ jobs:
         WEBHOOK_URL: ${{ vars.WEBHOOK_URL }}
         CURRENTCY_TABLE: ${{ vars.CURRENTCY_TABLE }}
       run: |
-        python scripts/APICaller.py
+        python Scripts/APICaller.py
 
 
 
