@@ -1,7 +1,7 @@
 name: Daily cur data update
 on:
   schedule:
-    - cron: '0 10 * * *'
+    - cron: '0 7 * * *'
   workflow_dispatch:
 jobs:
   update_datebase:
@@ -11,7 +11,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
     - name: Set up Python
-      uses: actions/setup-python@4
+      uses: actions/setup-python@v4
       with:
         python-version: '3.11'
     - name: Install Dependencies
@@ -27,7 +27,7 @@ jobs:
         WEBHOOK_URL: ${{ vars.WEBHOOK_URL }}
         CURRENTCY_TABLE: ${{ vars.CURRENTCY_TABLE }}
       run: |
-        python scripts/APICaller.py
+        python Scripts/APICaller.py
 
 
 
