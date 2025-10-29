@@ -1,5 +1,4 @@
 import requests
-import json
 import os
 from DataProcessor import get_latest_exchange_rates_df
 from WebHookHandler import send_data_message_to_discord, send_error_to_discord,send_db_update_notification_to_discord
@@ -37,7 +36,7 @@ def get_url(base_code: str = "EUR") -> str:
 
 
 
-def get_data(url: str) -> json:
+def get_data(url: str):
     try:
         response = requests.get(url)
         response.raise_for_status()

@@ -1,7 +1,5 @@
 import pandas as pd
 
-
-
 def get_latest_exchange_rates_df(data: dict, target_codes) -> pd.DataFrame:
     try:
         if not isinstance(data, dict):

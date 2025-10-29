@@ -1,4 +1,3 @@
-import sys
 from discord_webhook import DiscordWebhook
 import os
 import pandas as pd
