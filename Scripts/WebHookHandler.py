@@ -1,18 +1,28 @@
 from discord_webhook import DiscordWebhook
+from DataProcessor import get_compare_extreme_value
 import os
 import pandas as pd
 from datetime import datetime
 
 
 
-def get_exchange_rate_message (df : pd.DataFrame, base_code:str = "EUR" , target_code: str = "VND") -> str:
+def get_exchange_rate_message (lastest_exchange_rate_df : pd.DataFrame, base_code:str = "EUR" , target_code: str = "VND") -> str:
 	try: 
-		sending_data_df = df.loc[(df['base_code'] == base_code) & (df['target_code'] == target_code) ,:]
+
+		sending_data_df = lastest_exchange_rate_df.loc[(lastest_exchange_rate_df['base_code'] == base_code) & (lastest_exchange_rate_df['target_code'] == target_code) ,:]
 
 		sending_data_dict = sending_data_df.to_dict('list')
 		date = sending_data_dict['date_readable'][0]
-		conversion_rate = sending_data_dict['conversion_rates'][0]
+		conversion_rate = round(sending_data_dict['conversion_rates'][0])
+
 		mess = f"Conversion Rate: {conversion_rate}\nDate: {date} \nBase Currency: {base_code} \nTarget Currency: {target_code}"
+		compared_message = get_compare_extreme_value(lastest_exchange_rate_df)
+		if compared_message:
+			mess = f"""Conversion Rate: {conversion_rate}
+			Date: {date}
+			Base Currency: {base_code}
+			Target Currency: {target_code}
+			{compared_message}"""
 		return mess
 	except (IndexError, KeyError, ValueError) as e:
 		today_date = datetime.today().strftime("%d %b %Y")

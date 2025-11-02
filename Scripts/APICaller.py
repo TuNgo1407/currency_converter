@@ -17,10 +17,11 @@ def process_exchange_rate_API(base_code):
 	try:
 		exchange_rate_url = get_url(base_code)
 		latest_exchange_rate_data = get_data(exchange_rate_url)
-		df = get_latest_exchange_rates_df (latest_exchange_rate_data,TARGET_CODES)
-		send_data_message_to_discord(df,base_code,TARGET_CODES[0])
+		lastest_exchange_rate_df = get_latest_exchange_rates_df (latest_exchange_rate_data,TARGET_CODES)
+        
+		send_data_message_to_discord(lastest_exchange_rate_df,base_code,TARGET_CODES[0])
           
-		upsert_rates_table(df)
+		upsert_rates_table(lastest_exchange_rate_df)
 		send_db_update_notification_to_discord()
 	except Exception as e:
 		send_error_to_discord(e)

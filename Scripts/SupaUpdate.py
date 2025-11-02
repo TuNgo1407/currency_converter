@@ -4,6 +4,32 @@ from supabase import create_client
 from postgrest.exceptions import APIError
 
 
+
+def get_extreme_values():
+	try:
+		url = os.environ.get("SUPABASE_URL")
+		key = os.environ.get("SUPABASE_KEY")
+
+		if not url or not key:
+			raise ValueError ("Missing Supabase URL or Key")
+		supabase = create_client(url,key)
+
+	
+		response = (supabase.rpc("get_extreme_exchange_rate", {
+			"target_currency":"VND"
+		})).execute()
+		if response.data:
+			return response.data[0]
+		else: return []
+	except ValueError as e:
+		print (f"Error: {e}")
+		raise
+	except APIError as e:
+		print (f"Supabase API Error")
+		raise
+
+
+
 def upsert_rates_table (df : pd.DataFrame):
 	rates_table = os.environ.get("CURRENTCY_TABLE")
 	try:
@@ -27,7 +53,6 @@ def upsert_rates_table (df : pd.DataFrame):
 	except APIError as e:
 		print (f"Supabase API Error")
 		raise
-
 
 
 

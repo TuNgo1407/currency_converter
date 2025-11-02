@@ -1,4 +1,33 @@
 import pandas as pd
+from SupaUpdate import get_extreme_values
+
+def get_compare_extreme_value(latest_exchange_rates_df: pd.DataFrame):
+    try:
+        extreme_data = get_extreme_values()
+        rate_and_date_vn = latest_exchange_rates_df.loc[latest_exchange_rates_df['target_code'] == "VND",['conversion_rates']] 
+        latest_conversion_rate = rate_and_date_vn['conversion_rates'].iloc[0]
+
+        if latest_conversion_rate <= extreme_data['min_30_day_value']:
+            return f"Lowest exchange rate last 30 days! the last lowest in day: {extreme_data['min_30_dates'][0]}"
+                    
+
+        if latest_conversion_rate <= extreme_data['min_7_day_value']:
+            return f"Lowest exchange rate last 7 days! the last lowest in day: {extreme_data['min_7_dates'][0]}"
+                    
+
+        if latest_conversion_rate >= extreme_data['max_30_day_value']:
+            return  f"Highest exchange rate last 30 days! the last highest in day: {extreme_data['max_30_dates'][0]} "
+                    
+
+        if latest_conversion_rate >= extreme_data['max_7_day_value']:
+            return f"Highest exchange rate last 7 days! the last higest in day: {extreme_data['max_7_dates'][0]}"
+                    
+
+        return ""
+    except Exception as e:
+        raise
+    
+
 
 def get_latest_exchange_rates_df(data: dict, target_codes) -> pd.DataFrame:
     try:
@@ -15,6 +44,7 @@ def get_latest_exchange_rates_df(data: dict, target_codes) -> pd.DataFrame:
             data=data['conversion_rates'].items(),
             columns=['target_code', 'conversion_rates']
         )
+
         rates_df.insert(0, 'result', data['result'])
         rates_df.insert(1, 'time_last_update_unix', data['time_last_update_unix'])
         rates_df.insert(2, 'base_code', data['base_code'])
@@ -30,4 +60,13 @@ def get_latest_exchange_rates_df(data: dict, target_codes) -> pd.DataFrame:
     except (TypeError, KeyError) as e:
         print(f"Input Error: {e}")
         raise
-        
+
+
+
+
+
+mess = f"""Conversion Rate:
+Date:
+Base Currency:
+Target Currency:"""
+print(mess)
