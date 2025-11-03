@@ -18,11 +18,7 @@ def get_exchange_rate_message (lastest_exchange_rate_df : pd.DataFrame, base_cod
 		mess = f"Conversion Rate: {conversion_rate}\nDate: {date} \nBase Currency: {base_code} \nTarget Currency: {target_code}"
 		compared_message = get_compare_extreme_value(lastest_exchange_rate_df)
 		if compared_message:
-			mess = f"""Conversion Rate: {conversion_rate}
-			Date: {date}
-			Base Currency: {base_code}
-			Target Currency: {target_code}
-			{compared_message}"""
+			mess = f"Conversion Rate: {conversion_rate}\nDate: {date}\nBase Currency: {base_code}\nTarget Currency: {target_code}\n{compared_message}"
 		return mess
 	except (IndexError, KeyError, ValueError) as e:
 		today_date = datetime.today().strftime("%d %b %Y")
